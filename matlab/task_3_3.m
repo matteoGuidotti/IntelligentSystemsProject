@@ -55,6 +55,7 @@ nbins = 15;
 binWidth = 0.5;
 y_lim = 30;
 
+figure(1);
 t = tiledlayout(1,3);
 nexttile
 histogram(x_24,'BinWidth',0.5);
@@ -92,6 +93,7 @@ y_low = [index1 index2];
 y_medium = [index3 index4 index5];
 y_high = [index6 index7];
 
+figure(4)
 t = tiledlayout(1,3);
 nexttile
 
@@ -110,6 +112,7 @@ title('Feature 24 high');
 
 
 %Feature 27
+figure(5)
 t = tiledlayout(1,3);
 nexttile
 histogram(x_train(y_low,2), 'BinWidth', binWidth);
@@ -125,6 +128,7 @@ yline(y_lim, '--r');
 title('Feature 27 high');
 
 %Feature 35
+figure(6)
 t = tiledlayout(1,3);
 nexttile
 histogram(x_train(y_low,3), 'BinWidth', binWidth);
@@ -141,40 +145,53 @@ title('Feature 35 high');
 
 
 %Low
-if PLOT_HIST_LOW==1
-    histogram(x_train(y_low,1));
-    title("Low Outputs For Feature 24");
-    histogram(x_train(y_low,2));
-    title("Low Outputs For Feature 27");
-    histogram(x_train(y_low,3));
-    title("Low Outputs For Feature 35");  
-end
+%if PLOT_HIST_LOW==1
+%    figure(4);
+%    histogram(x_train(y_low,1));
+%    title("Low Outputs For Feature 24");
+%    figure(5);
+%    histogram(x_train(y_low,2));
+%    title("Low Outputs For Feature 27");
+%    figure(6);
+%    histogram(x_train(y_low,3));
+%    title("Low Outputs For Feature 35");
+
+  
+%end
 
 %Medium
-if PLOT_HIST_MEDIUM==1
-    histogram(x_train(y_medium,1));
-    title("Medium Outputs For Feature 24");
-    histogram(x_train(y_medium,2));
-    title("Medium Outputs For Feature 27");
-    histogram(x_train(y_medium,3));
-    title("Medium Outputs For Feature 35");
-end
+%if PLOT_HIST_MEDIUM==1
+%   figure(7);
+%    histogram(x_train(y_medium,1));
+%    title("Medium Outputs For Feature 24");
+%    figure(8);
+%    histogram(x_train(y_medium,2));
+%    title("Medium Outputs For Feature 27");
+%    figure(9);
+%    histogram(x_train(y_medium,3));
+%    title("Medium Outputs For Feature 35");
+%end
 
-High
-if PLOT_HIST_HIGH==1
-    histogram(x_train(y_high,1));
-    title("High Outputs For Feature 24");
-    histogram(x_train(y_high,2));
-    title("High Outputs For Feature 27");
-    histogram(x_train(y_high,3));
-    title("High Outputs For Feature 35");
-end
+%High
+%if PLOT_HIST_HIGH==1
+%    figure(10);
+%    histogram(x_train(y_high,1));
+%    title("High Outputs For Feature 24");
+%    figure(27);
+%    histogram(x_train(y_high,2));
+%    title("High Outputs For Feature 27");
+%    figure(35);
+%    histogram(x_train(y_high,3));
+%    title("High Outputs For Feature 35");
+%end
 
-% Plot Scatterplots between pairs of features to find some correlations
+% Plot Scatterplots between pairs of features to find possible correlations
+figure(7)
 scatter(x_24, x_27);
 title('Scatterplot of feature 24 and feature 27');
+figure(8)
 scatter(x_24, x_35);
 title('Scatterplot of feature 24 and feature 35');
+figure(9)
 scatter(x_27, x_35);
 title('Scatterplot of feature 27 and feature 35');
-
