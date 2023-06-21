@@ -61,7 +61,7 @@ augmentation_factors = [0 0];
 
 possible_values = unique(arousal_levels);
 
-rep = 80; % 40 per Leo
+rep = 80;
 row_to_check = final_rows;
 
 if BALANCING_DATA == 1
@@ -72,11 +72,9 @@ if BALANCING_DATA == 1
 				current_row = clean_dataset(i, :);
 				row_to_add = current_row;
 				% Random selection of the augmentation factor
-				augmentation_factors(1) = 0.95+(0.04)*rand;
-                augmentation_factors(2) = 1.01+(0.04)*rand;
-                j = round(0.51+(1.98)*rand);
+				randomizer = 1 + (rand(1) - 0.5)/10;
 				% Augmentation
-				row_to_add(3: end) = current_row(3: end).*augmentation_factors(j);
+				row_to_add(3: end) = current_row(3: end).*randomizer;
 				% Adding the new sample to the dataset
 				clean_dataset = [clean_dataset; row_to_add];
 			end
@@ -115,18 +113,18 @@ target_arousal = clean_dataset(:, 1);
 target_valence = clean_dataset(:, 2);
 
 cv = cvpartition(target_arousal, 'holdout', 0.3);
-idxTraining = training(cv)
+idxTraining = training(cv);
 idxTesting = test(cv);
 
-x_train = features(idxTraining, :);
+x_train = features_set(idxTraining, :);
 y_train_arousal = target_arousal(idxTraining, :);
 y_train_valence = target_valence(idxTraining, :);
 
-x_test = features(idxTesting, :);
+x_test = features_set(idxTesting, :);
 y_test_arousal = target_arousal(idxTesting, :);
 y_test_valence = target_valence(idxTesting, :);
 
-sequentialfs_rep = 30;
+sequentialfs_rep = 10;
 nfeatures = 5;
 
 %% AROUSAL FEATURES EXCTRACTION
@@ -164,7 +162,7 @@ if EXTRACT_AROUSAL == 1
 	% Saving the obtained structure in the correct file
 	save("data/training_arousal.mat", "best_arousal_training");
 
-	best_arousal_testing.x_test = normalize(x_test(:, arousal_best));
+	best_arousal_testing.x_test = normalize(x_test(:, best_arousal));
     best_arousal_testing.y_test = y_test_arousal';
     save("data/testing_arousal.mat", "best_arousal_testing");
     fprintf("Arousal features saved\n");
@@ -205,7 +203,7 @@ if EXTRACT_VALENCE == 1
 	% Saving the obtained structure in the correct file
 	save("data/training_valence.mat", "best_valence_training");
 
-	best_valence_testing.x_test = normalize(x_test(:, valence_best));
+	best_valence_testing.x_test = normalize(x_test(:, best_valence));
     best_valence_testing.y_test = y_test_valence';
     save("data/testing_valence.mat", "best_valence_testing");
     fprintf("valence features saved\n");
