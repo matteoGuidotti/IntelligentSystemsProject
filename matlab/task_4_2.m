@@ -25,7 +25,7 @@ end
 %% Splitting the images datastore into separate datastores for trainig, validation and testing
 % 70 per training, 20 per validation, 10 per testing
 
-[data_train, ~] = splitEachLabel(image_data, 0.7, 'randommized');
+[data_train, ~] = splitEachLabel(image_data, 0.7, 'randomized');
 [data_validation, data_test] = splitEachLabel(image_data, 0.2, 'randomized');
 
 class_number = numel(categories(data_train.Labels));
@@ -47,8 +47,8 @@ alexnet_layers = net.Layers(1: end - 3);
 
 layers = [
 	alexnet_layers
-	fullyConnectedLayer(numClasses, 'WeightLearnRateFactor',20,'BiasLearnRateFactor',20)
-	softMaxLayer
+	fullyConnectedLayer(class_number, 'WeightLearnRateFactor',20,'BiasLearnRateFactor',20)
+	softmaxLayer
 	classificationLayer
 ];
 
@@ -69,7 +69,7 @@ options = trainingOptions(...
 	'MaxEpochs', 10, ...
 	'InitialLearnRate', 1e-4, ...
 	'Shuffle', 'every-epoch', ...
-	'ValidationData',augmented_image_data_validation, ...
+	'ValidationData',augmented_img_data_validation, ...
 	'ValidationFrequency', 3, ...
 	'Verbose', false, ...
 	'Plots', 'training-progress' ... 
@@ -88,7 +88,7 @@ plotconfusion(target_train, res_train);
 
 %% Validation phase
 
-[res_val, ~] = classify(cnn_network, augmented_image_data_validation);
+[res_val, ~] = classify(cnn_network, augmented_img_data_validation);
 target_val = data_validation.Labels;
 validation_accuracy = mean(target_val == res_val);
 plotconfusion(target_val, res_val);

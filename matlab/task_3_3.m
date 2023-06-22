@@ -93,22 +93,22 @@ y_low = [index1 index2];
 y_medium = [index3 index4 index5];
 y_high = [index6 index7];
 
-figure(4)
+figure(4);
 t = tiledlayout(1,3);
 nexttile
 
 %Feature 24
 histogram(x_train(y_low,1), 'BinWidth', binWidth);
 yline(y_lim, '--r');
-title('Feature 24 low');
+title('Feature 24, low arousal');
 nexttile
 histogram(x_train(y_medium,1), 'BinWidth', binWidth);
 yline(y_lim, '--r');
-title('Feature 24 medium');
+title('Feature 24, medium arousal');
 nexttile
 histogram(x_train(y_high,1), 'BinWidth', binWidth);
 yline(y_lim, '--r');
-title('Feature 24 high');
+title('Feature 24, high arousal');
 
 
 %Feature 27
@@ -117,15 +117,15 @@ t = tiledlayout(1,3);
 nexttile
 histogram(x_train(y_low,2), 'BinWidth', binWidth);
 yline(y_lim, '--r');
-title('Feature 27 low');
+title('Feature 27, low arousal');
 nexttile
 histogram(x_train(y_medium,2), 'BinWidth', binWidth);
 yline(y_lim, '--r');
-title('Feature 27 medium');
+title('Feature 27, medium arousal');
 nexttile
 histogram(x_train(y_high,2), 'BinWidth', binWidth);
 yline(y_lim, '--r');
-title('Feature 27 high');
+title('Feature 27, high arousal');
 
 %Feature 35
 figure(6)
@@ -133,15 +133,15 @@ t = tiledlayout(1,3);
 nexttile
 histogram(x_train(y_low,3), 'BinWidth', binWidth);
 yline(y_lim, '--r');
-title('Feature 35 low');
+title('Feature 35, low arousal');
 nexttile
 histogram(x_train(y_medium,3), 'BinWidth', binWidth);
 yline(y_lim, '--r');
-title('Feature 35 medium');
+title('Feature 35, medium arousal');
 nexttile
 histogram(x_train(y_high,3), 'BinWidth', binWidth);
 yline(y_lim, '--r');
-title('Feature 35 high');
+title('Feature 35, high arousal');
 
 
 %Low
