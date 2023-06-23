@@ -6,7 +6,7 @@ clc
 %% Loading the images as an image datastore
 % Image datastore consents to label the images based on their folder names
 
-CLASSIFICATION = 5;
+CLASSIFICATION = 6;
 
 if CLASSIFICATION == 0
     image_data = imageDatastore("data/images/selected/classification_2_classes/",'IncludeSubfolders', true, 'LabelSource', 'foldernames');
@@ -20,6 +20,8 @@ elseif CLASSIFICATION == 4
         image_data = imageDatastore("data/images/1000_images/",'IncludeSubfolders', true, 'LabelSource', 'foldernames');
 elseif CLASSIFICATION == 5
         image_data = imageDatastore("data/images/500_images/",'IncludeSubfolders', true, 'LabelSource', 'foldernames');
+elseif CLASSIFICATION == 6
+        image_data = imageDatastore("data/images/selected/classification_2_classes_Happ_Ang",'IncludeSubfolders', true, 'LabelSource', 'foldernames');
 end
 
 %% Splitting the images datastore into separate datastores for trainig, validation and testing

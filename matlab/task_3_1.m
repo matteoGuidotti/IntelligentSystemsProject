@@ -21,18 +21,18 @@ x_test_valence = test_valence.best_valance_testing.x_test';
 t_test_valence = test_valence.best_valance_testing.y_test'.';
 fprintf("Valence features loaded\n");
 
-MLP_AROUSAL = 0;
+MLP_AROUSAL = 1;
 MLP_VALENCE = 0;
-RBFN_AROUSAL = 1;
+RBFN_AROUSAL = 0;
 RBFN_VALENCE = 0;
-TESTING_AROUSAL = 1;
-TESTING_VALANCE = 0;
+TESTING_AROUSAL = 0;
+TESTING_VALENCE = 0;
 
 %% MLP OUTPUTTING AROUSAL LEVEL
 
 if MLP_AROUSAL == 1
     % Optimal Neural Network Architecture found for arousal
-	hidden_neurons = 45;
+	hidden_neurons = 25;
     mlp_net_arousal = fitnet(hidden_neurons);
     mlp_net_arousal.divideParam.trainRatio = 0.7;
     mlp_net_arousal.divideParam.testRatio = 0.1; 
@@ -45,10 +45,12 @@ if MLP_AROUSAL == 1
     
     [mlp_net_arousal, tr_arousal] = train(mlp_net_arousal, x_train_arousal, t_train_arousal);
     view(mlp_net_arousal);
+    figure
 	plotperform(tr_arousal);
 
 	y_test_arousal = mlp_net_arousal(x_test_arousal);
-	plotregression(t_test_arousal, y_test_arousal, ['Final test arousal: ' + hidden_neurons + ' hidden neurons' ]);
+    figure
+	plotregression(t_test_arousal, y_test_arousal);
     
 
 % Traces of other experiments
@@ -82,7 +84,7 @@ elseif TESTING_AROUSAL == 1
 			best_R = current_R;
 			hiddenLayerSize_arousal = i;
         end
-		%close(v);
+		close(v);
     end
 	fprintf("Max R value saved: %d for hiddenLayerSize %d \n", best_R, hiddenLayerSize_arousal);
 end
@@ -91,7 +93,7 @@ end
 
 if MLP_VALENCE == 1
     % Optimal Neural Network Architecture found for valence
-	hidden_neurons = 80;
+	hidden_neurons = 60;
     mlp_net_valence = fitnet(hidden_neurons);
     mlp_net_valence.divideParam.trainRatio = 0.7;
     mlp_net_valence.divideParam.testRatio = 0.1; 
@@ -104,14 +106,16 @@ if MLP_VALENCE == 1
     
     [mlp_net_valence, tr_valence] = train(mlp_net_valence, x_train_valence, t_train_valence);
     view(mlp_net_valence);
+    figure
 	plotperform(tr_valence);
 
 	y_test_valence = mlp_net_valence(x_test_valence);
-	plotregression(t_test_valence, y_test_valence, ['Final test valence: ' + hidden_neurons + ' hidden neurons']);
+    figure
+	plotregression(t_test_valence, y_test_valence);
     
 
 % Traces of other experiments
-elseif TESTING_valence == 1
+elseif TESTING_VALENCE == 1
     fprintf("Testing valence\n");
     max_neurons_1 = 120;
 	best_R = 0;
@@ -141,7 +145,7 @@ elseif TESTING_valence == 1
 			best_R = current_R;
 			hiddenLayerSize_valence = i;
         end
-        %close(v);
+        close(v);
     end
 	fprintf("Max R value saved: %d for hiddenLayerSize %d \n", best_R, hiddenLayerSize_valence);
 end
@@ -154,30 +158,30 @@ end
 
 if RBFN_AROUSAL == 1
     %Creation of RBFN
-    goal_ar = 0;
-    spread_ar = 1.07;
-    K_ar = 500;
-    Ki_ar = 50;
+    goal_ar = 0.02;
+    spread_ar = 1;
+    K_ar = 200; %max neurons
+    Ki_ar = 20; %neurons to add
 
-    rbf_arousal = newrb(x_train_arousal,y_train_arousal,goal_ar,spread_ar,K_ar,Ki_ar);
+    rbf_arousal = newrb(x_train_arousal,t_train_arousal,goal_ar,spread_ar,K_ar,Ki_ar);
     view (rbf_arousal);
     %Test
     test_output_arousal_rbf = rbf_arousal(x_test_arousal);
-    plotregression(y_test_arousal, test_output_arousal_rbf, 'Final test arousal with RBF');
+    plotregression(t_test_arousal, test_output_arousal_rbf, 'Final test arousal with RBF');
 end
 
 %% RBFN outputting valence levels
 
 if RBFN_VALENCE == 1
     %Creation of RBFN
-    goal_va = 0;
-    spread_va = 0.7;
-    K_va = 500;
-    Ki_va = 50;
+    goal_va = 0.02;
+    spread_va = 1;
+    K_va = 200; %max neurons
+    Ki_va = 20; %neurons to add
     
-    rbf_valence = newrb(x_train_valence,y_train_valence,goal_va,spread_va, K_va, Ki_va);
+    rbf_valence = newrb(x_train_valence,t_train_valence,goal_va,spread_va, K_va, Ki_va);
     view (rbf_valence);
     %Test
     test_output_valence_rbf = rbf_valence(x_test_valence);
-    plotregression(y_test_valence, test_output_valence_rbf, 'Final test valence with RBF');
+    plotregression(t_test_valence, test_output_valence_rbf, 'Final test valence with RBF');
 end

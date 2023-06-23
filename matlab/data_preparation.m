@@ -26,8 +26,8 @@ fprintf("%i outliers have been removed\n", initial_rows - final_rows);
 %% DATA BALANCING
 
 % Instantiate some control variables
-EXTRACT_VALENCE = 1;
-EXTRACT_AROUSAL = 1;
+EXTRACT_VALENCE = 0;
+EXTRACT_AROUSAL = 0;
 BALANCING_DATA = 1;
 
 % isolating leveles of arousal and valence
@@ -124,7 +124,7 @@ x_test = features_set(idxTesting, :);
 y_test_arousal = target_arousal(idxTesting, :);
 y_test_valence = target_valence(idxTesting, :);
 
-sequentialfs_rep = 10;
+sequentialfs_rep = 5;
 nfeatures = 5;
 
 %% AROUSAL FEATURES EXCTRACTION
@@ -210,18 +210,19 @@ if EXTRACT_VALENCE == 1
 end
 
 %% Save best-3 features arousal dataset for task 3.3
-arousal_possible_values = unique(target_arousal);
-arousal_best3 = features_arousal(1:3, 2);
-best3.x_train = normalize(x_train(:, arousal_best3));
-best3.y_train = y_train_arousal';
-best3.x_test = normalize(x_test(:, arousal_best3));
-best3.y_test = y_test_arousal';
-best3.best_features=arousal_best3;
-best3.y_values= arousal_possible_values;
-% Save struct in the correct file
-save("data/best3.mat", "best3");
-fprintf("Best-3 arousal features saved\n");
-
+if EXTRACT_AROUSAL == 1
+    arousal_possible_values = unique(target_arousal);
+    arousal_best3 = features_arousal(1:3, 2);
+    best3.x_train = normalize(x_train(:, arousal_best3));
+    best3.y_train = y_train_arousal';
+    best3.x_test = normalize(x_test(:, arousal_best3));
+    best3.y_test = y_test_arousal';
+    best3.best_features=arousal_best3;
+    best3.y_values= arousal_possible_values;
+    % Save struct in the correct file
+    save("data/best3.mat", "best3");
+    fprintf("Best-3 arousal features saved\n");
+end
 %% Function for sequentialfs
 function err = myfun(x_train, t_train, x_test, t_test)
     net = fitnet(60);
